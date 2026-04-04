@@ -1,22 +1,18 @@
 require("dotenv").config();
-
 const express = require("express");
 const cors = require("cors");
 
+const db = require("./db"); // IMPORTANT
+
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Test Route
 app.get("/", (req, res) => {
-  res.send("🚀 Finance Backend Running");
+  res.send("API Running");
 });
 
-// Server
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
 });
