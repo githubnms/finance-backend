@@ -1,29 +1,23 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
+exports.verifyToken = (req, res, next) => {
+    const token = req.headers['authorization'];
 
-    // If no header
-    if (!authHeader) {
-      return res.status(401).json({ message: "No token provided" });
-    }
+    if (!token) return res.status(401).json({ message: "No token" });
 
-    // Split "Bearer TOKEN"
-    const token = authHeader.split(" ")[1];
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) return res.status(401).json({ message: "Invalid token" });
 
-    // If token missing
-    if (!token) {
-      return res.status(401).json({ message: "Token format invalid" });
-    }
+        req.user = decoded;
+        next();
+    });
+};
 
-    // Verify token
-    const decoded = jwt.verify(token, "secretkey");
-
-    req.user = decoded;
-    next();
-
-  } catch (error) {
-    return res.status(401).json({ message: "Invalid token" });
-  }
+exports.authorizeRoles = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return res.status(403).json({ message: "Access denied" });
+        }
+        next();
+    };
 };

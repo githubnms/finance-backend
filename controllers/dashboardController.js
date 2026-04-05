@@ -1,29 +1,22 @@
-const db = require("../config/db");
+const db = require('../config/db');
 
-exports.getDashboard = async (req, res) => {
-  try {
+exports.getDashboard = (req, res) => {
     const userId = req.user.id;
 
-    // Total Income
-    const [income] = await db.query(
-      "SELECT IFNULL(SUM(amount), 0) AS total_income FROM records WHERE user_id = ? AND type = 'income'",
-      [userId]
-    );
+    const incomeQuery = "SELECT SUM(amount) AS income FROM records WHERE user_id=? AND type='income'";
+    const expenseQuery = "SELECT SUM(amount) AS expense FROM records WHERE user_id=? AND type='expense'";
 
-    // Total Expense
-    const [expense] = await db.query(
-      "SELECT IFNULL(SUM(amount), 0) AS total_expense FROM records WHERE user_id = ? AND type = 'expense'",
-      [userId]
-    );
+    db.query(incomeQuery, [userId], (err, incomeResult) => {
+        db.query(expenseQuery, [userId], (err, expenseResult) => {
 
-    res.json({
-      total_income: income[0].total_income,
-      total_expense: expense[0].total_expense,
-      balance: income[0].total_income - expense[0].total_expense
+            const income = incomeResult[0].income || 0;
+            const expense = expenseResult[0].expense || 0;
+
+            res.json({
+                total_income: income,
+                total_expense: expense,
+                balance: income - expense
+            });
+        });
     });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error fetching dashboard" });
-  }
 };

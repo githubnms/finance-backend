@@ -1,9 +1,10 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const auth = require("../middleware/authMiddleware");
-const controller = require("../controllers/recordController");
+const { addRecord, getRecords, deleteRecord } = require('../controllers/recordController');
+const { verifyToken, authorizeRoles } = require('../middleware/auth');
 
-router.post("/", auth, controller.addRecord);
-router.get("/", auth, controller.getRecords);
+router.post('/add', verifyToken, authorizeRoles('admin'), addRecord);
+router.get('/records', verifyToken, getRecords);
+router.delete('/delete/:id', verifyToken, authorizeRoles('admin'), deleteRecord);
 
 module.exports = router;

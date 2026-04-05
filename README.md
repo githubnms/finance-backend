@@ -73,14 +73,20 @@
   <em>Left: Admin Register | Right: Analyst Register</em>
 </div>
 
+<br>
+
 **Login**
 
 <div align="center">
   <img src="screenshot/admin_login.png" width="400" alt="Admin Login">
   <img src="screenshot/viewer_register.png" width="400" alt="Viewer Register">
   <br>
+  <p> "JWT token is partially masked for security purposes" </p>
+  <br>
   <em>Left: Admin Login | Right: Viewer Register</em>
 </div>
+
+<br>
 
 **Dashboard**
 
@@ -90,6 +96,8 @@
   <br>
   <em>Left: Admin Dashboard | Right: Analyst Dashboard</em>
 </div>
+
+<br>
 
 **Record**
 

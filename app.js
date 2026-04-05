@@ -25,9 +25,13 @@ db.connect(err => {
 
 // ================= AUTH =================
 const auth = (req, res, next) => {
-  const token = req.headers["authorization"];
+  const header = req.headers["authorization"];
 
-  if (!token) return res.status(401).json({ message: "No token" });
+  if (!header) return res.status(401).json({ message: "No token" });
+
+  const token = header.split(" ")[1]; // Bearer token
+
+  if (!token) return res.status(401).json({ message: "Invalid token format" });
 
   try {
     const decoded = jwt.verify(token, SECRET);
@@ -104,6 +108,12 @@ app.post("/add", auth, checkRole(["admin"]), (req, res) => {
   if (!type || !amount)
     return res.status(400).json({ message: "Missing fields" });
 
+  if (!["income", "expense"].includes(type))
+    return res.status(400).json({ message: "Invalid type" });
+
+  if (amount <= 0)
+    return res.status(400).json({ message: "Amount must be greater than 0" });
+
   db.query(
     "INSERT INTO records (user_id,type,amount,category,note) VALUES (?,?,?,?,?)",
     [req.user.id, type, amount, category, note],
@@ -114,16 +124,27 @@ app.post("/add", auth, checkRole(["admin"]), (req, res) => {
   );
 });
 
-// ================= GET RECORDS =================
+// ================= GET RECORDS (WITH FILTERING) =================
 app.get("/records", auth, checkRole(["admin", "analyst"]), (req, res) => {
-  db.query(
-    "SELECT * FROM records WHERE user_id=?",
-    [req.user.id],
-    (err, result) => {
-      if (err) return res.status(500).json(err);
-      res.json(result);
-    }
-  );
+  const { type, category } = req.query;
+
+  let query = "SELECT * FROM records WHERE user_id=?";
+  let values = [req.user.id];
+
+  if (type) {
+    query += " AND type=?";
+    values.push(type);
+  }
+
+  if (category) {
+    query += " AND category=?";
+    values.push(category);
+  }
+
+  db.query(query, values, (err, result) => {
+    if (err) return res.status(500).json(err);
+    res.json(result);
+  });
 });
 
 // ================= UPDATE RECORD =================
@@ -153,7 +174,7 @@ app.delete("/delete/:id", auth, checkRole(["admin"]), (req, res) => {
 });
 
 // ================= DASHBOARD =================
-app.get("/dashboard", auth, (req, res) => {
+app.get("/dashboard", auth, checkRole(["admin", "analyst"]), (req, res) => {
   db.query(
     `SELECT 
       SUM(CASE WHEN type='income' THEN amount ELSE 0 END) AS total_income,
@@ -172,7 +193,7 @@ app.get("/dashboard", auth, (req, res) => {
 });
 
 // ================= CATEGORY SUMMARY =================
-app.get("/category-summary", auth, (req, res) => {
+app.get("/category-summary", auth, checkRole(["admin", "analyst"]), (req, res) => {
   db.query(
     "SELECT category, SUM(amount) as total FROM records WHERE user_id=? GROUP BY category",
     [req.user.id],
@@ -185,5 +206,5 @@ app.get("/category-summary", auth, (req, res) => {
 
 // ================= SERVER =================
 app.listen(5000, () => {
-  console.log("Server running on port 5000 ");
+  console.log("Server running on port 5000");
 });
