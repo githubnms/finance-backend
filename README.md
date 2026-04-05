@@ -39,6 +39,13 @@ This is a RESTful API built using Node.js and Express to manage income and expen
 
 ## Output
 
+<div align="center">
+  <img src="screenshot/admin_register.png" width="400" alt="Admin Register">
+  <img src="screenshot/analyst_register.png" width="400" alt="Analyst Register">
+  <br>
+  <em>Left: Admin Register | Right: Analyst Register</em>
+</div>
+
 ## Challenges Faced
 
    - Token authentication errors
@@ -59,5 +66,6 @@ This is a RESTful API built using Node.js and Express to manage income and expen
 
 ## Author
 
-Developed by : Meenakshi Sundaram
+Developed by : Meenakshi Sundaram 
+<br>
 Email        : nmeenakshisundaram257@gmail.com
