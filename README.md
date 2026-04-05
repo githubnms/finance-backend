@@ -64,11 +64,40 @@
 
 ## Output
 
+**Register**
+
 <div align="center">
   <img src="screenshot/admin_register.png" width="400" alt="Admin Register">
   <img src="screenshot/analyst_register.png" width="400" alt="Analyst Register">
   <br>
   <em>Left: Admin Register | Right: Analyst Register</em>
+</div>
+
+**Login**
+
+<div align="center">
+  <img src="screenshot/admin_login.png" width="400" alt="Admin Login">
+  <img src="screenshot/viewer_register.png" width="400" alt="Viewer Register">
+  <br>
+  <em>Left: Admin Login | Right: Viewer Register</em>
+</div>
+
+**Dashboard**
+
+<div align="center">
+  <img src="screenshot/admin_dashboard.png" width="400" alt="Admin Dashboard">
+  <img src="screenshot/analyst_dashboard.png" width="400" alt="Analyst Dashboard">
+  <br>
+  <em>Left: Admin Dashboard | Right: Analyst Dashboard</em>
+</div>
+
+**Record**
+
+<div align="center">
+  <img src="screenshot/admin_record.png" width="400" alt="Admin Record">
+  <img src="screenshot/viewer_record.png" width="400" alt="Viewer Record">
+  <br>
+  <em>Left: Admin Record | Right: Viewer Record</em>
 </div>
 
 ## Challenges & Solutions
