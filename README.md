@@ -3,39 +3,64 @@
 ![version](https://img.shields.io/badge/version-1.0.0-blue)
 ![Node.js](https://img.shields.io/badge/Node.js-18-green)
 ![Express](https://img.shields.io/badge/Express-4.18-black)
+![MySQL](https://img.shields.io/badge/Database-MySQL-blue)
 ![JWT](https://img.shields.io/badge/Auth-JWT-yellow)
+![REST API](https://img.shields.io/badge/API-REST-purple)
+![Postman](https://img.shields.io/badge/Tested%20With-Postman-orange)
+![GitHub stars](https://img.shields.io/github/stars/MeenakshiSundaram/your-repo?style=social)
 
-## Description
+## Project Overview
 
-This is a RESTful API built using Node.js and Express to manage income and expenses. It helps users track their financial activities efficiently.
+   1. This project implements a backend system for managing financial data with role-based access control.  
+   2. It provides secure APIs to create, manage, and analyze financial records such as income and expenses.
+   3. The system supports multiple user roles and ensures controlled access to data based on permissions.
 
-## Tech Stack
+## Technology Stack
 
-   - Backend: Node.js, Express.js
-   - Database: MongoDB / MySQL
-   - API Testing: Postman
-   - Authentication: JWT
+   - Backend: Node.js, Express.js  
+   - Language: JavaScript  
+   - Database: MySQL  
+   - Authentication: JSON Web Token (JWT)  
+   - Security: bcrypt  
+   - API Testing: Postman  
   
-## Features
+## Key Features
 
-   ✔ Add income and expense  
-   ✔ Fetch all records  
-   ✔ Secure API with JWT authentication  
-   ✔ User-based data filtering  
-   ✔ Error handling & validation  
+   ✔ Implement user authentication using JWT  
+   ✔ Enforce role-based access control (Admin, Analyst, Viewer)  
+   ✔ Perform CRUD operations on financial records  
+   ✔ Generate dashboard summaries (income, expense, balance)  
+   ✔ Provide category-wise financial insights  
+   ✔ Handle errors and validate input data  
+  
 
-## How to Run
+## Installation & Setup
 
    1. Clone the repository
-   2. Run: npm install
-   3. Setup .env file
-   4. Run: npm start
-   5. Open Postman and test APIs
+   2. **Install dependencies** : npm install
+   3. **Configure environment variables**
+      - Create a .env file and add :
+      - PORT=5000
+      - DB_HOST=localhost
+      - DB_USER=root
+      - DB_PASSWORD=your_password
+      - DB_NAME=finance_db
+      - JWT_SECRET=your_secret_key
+   4. **Start the server** : npm run dev
 
 ## API Endpoints
 
-   - GET     /records      -> Get all records
-   - POST    /records      -> Add new record
+   1. **Authentication**
+      - POST /register → Create a new user
+      - POST /login → Authenticate user and return token
+   2. **Financial Records**
+      - POST /add → Create a new record (Admin only)
+      - GET /records → Fetch records
+      - PUT /update/:id → Update record
+      - DELETE /delete/:id → Delete record
+   3. **Dashboard**
+      - GET /dashboard → Get total income, expense, balance
+      - GET /category-summary → Get category-wise totals
 
 ## Output
 
@@ -46,23 +71,27 @@ This is a RESTful API built using Node.js and Express to manage income and expen
   <em>Left: Admin Register | Right: Analyst Register</em>
 </div>
 
-## Challenges Faced
+## Challenges & Solutions
 
-   - Token authentication errors
-   - Data not showing for some users
-   - Authorization issues
+   - Resolved JWT authentication issues by correcting token format in request headers
+   - Fixed role-based access errors by validating user roles in middleware
+   - Handled empty API responses by ensuring user-specific data filtering in queries
+   - Debugged server errors by improving error handling and logging
   
-## How We Solved
+## Project Impact
 
-   - Fixed JWT token format
-   - Checked user roles (admin, analyst, viewer)
-   - Debugged API responses in Postman
+   - Resolved JWT authentication issues by correcting token format in request headers
+   - Fixed role-based access errors by validating user roles in middleware
+   - Handled empty API responses by ensuring user-specific data filtering in queries
+   - Debugged server errors by improving error handling and logging
 
-## Future Improvements
+## Future Enhancements
 
-   - Add frontend UI
-   - Add analytics dashboard
-   - Deploy to cloud (AWS)
+   - Add filtering options (date, category, type)
+   - Implement pagination for large datasets
+   - Integrate frontend dashboard
+   - Deploy using cloud services (AWS / Render)
+   - Add API documentation (Swagger)
 
 ## Author
 
